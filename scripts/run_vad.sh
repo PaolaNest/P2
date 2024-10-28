@@ -7,10 +7,12 @@
 # distinto de cero, o cero si todos devuelven cero.
 set -o pipefail
 
+alfa1=${1:-5.1} 
+
 # Write here the name and path of your program and database
 DIR_P2=$HOME/PAV/P2
 DB=$DIR_P2/db.v4
-CMD=$DIR_P2/bin/vad
+CMD="$DIR_P2/bin/vad -1 $alfa1"
 
 for filewav in $DB/*/*wav; do
 #    echo
