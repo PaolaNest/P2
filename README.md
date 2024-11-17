@@ -135,25 +135,42 @@ Ejercicios
 - Etiquete manualmente los segmentos de voz y silencio del fichero grabado al efecto. Inserte, a 
   continuación, una captura de `wavesurfer` en la que se vea con claridad la señal temporal, el contorno de
   potencia y la tasa de cruces por cero, junto con el etiquetado manual de los segmentos.
+  
+![image](https://github.com/user-attachments/assets/e17d9243-7b66-4369-bd00-90f72591800b)
 
 
 - A la vista de la gráfica, indique qué valores considera adecuados para las magnitudes siguientes:
 
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
+   
+![image](https://github.com/user-attachments/assets/c40e69b2-30bf-4f7a-9ade-d2d40eb75a6d)
+
+
+   - &#x2206; Pot [db] = 63-24 = 39 dB
+   - Silencio -> alrededor de los 20dB
+   - Voz -> entre 22dB y 63dB
 
 	* Duración mínima razonable de los segmentos de voz y silencio.
+ -
+    ![image](https://github.com/user-attachments/assets/990a0abe-246c-49e4-b7e1-f6150a2d34b9)
+
+
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
-
+- Analizando la gráfica de la tasa de cruces por cero, en los segmentos de silencio vemos que tiene una forma mucho más caótica e irregular, con muchos más cambios (subidas y bajadas) que en el caso de los segmentos de voz, esto es debido a que la señal no es sonora (unvoiced) y carece de periodicidad. Además durante los silencios, la señal no está del todo inactiva, no hay un completo silencio, se capta también ruido de fondo y el sistema de grabación del ordenador también influye (ruido térmico, electrónico, etc.).
 
 ### Desarrollo del detector de actividad vocal
 
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
+ 
+
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
-  automática conseguida para el fichero grabado al efecto. 
+  automática conseguida para el fichero grabado al efecto.
+
+  
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
 
