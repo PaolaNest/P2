@@ -4,6 +4,6 @@
 float compute_power(const float *x, unsigned int N);
 float compute_am(const float *x, unsigned int N);
 float compute_zcr(const float *x, unsigned int N, float fm);
-int sign(float x);
+int sgn(float x);
 
 #endif	/* PAV_ANALYSIS_H	*/

@@ -6,7 +6,7 @@
 #include "vad.h"
 
 const float FRAME_TIME = 10.0F; /* in ms. */
-
+const float MAX_DURATION = FRAME_TIME * 3.0F;
 /* 
  * As the output state is only ST_VOICE, ST_SILENCE, or ST_UNDEF,
  * only this labels are needed. You need to add all labels, in case
@@ -43,8 +43,7 @@ Features compute_features(const float *x, int N) {
    * For the moment, compute random value between 0 and 1 
    */
   Features feat;
-  feat.p = compute_power(x,N); /*definido en la practica 1*/
-  /*feat.zcr = feat.p = feat.am = (float) rand()/RAND_MAX;*/
+  feat.p = compute_power(x,N);
   return feat;
 }
 
@@ -61,11 +60,10 @@ VAD_DATA * vad_open(float rate) {
 }
 
 VAD_STATE vad_close(VAD_DATA *vad_data) {
-  /* 
-   * TODO: decide what to do with the last undecided frames
-   */
   VAD_STATE state = vad_data->state;
-
+   if (state == ST_UNDEF) {
+    state = ST_SILENCE; //Els declarem com silenci
+  }
   free(vad_data);
   return state;
 }
@@ -79,7 +77,7 @@ unsigned int vad_frame_size(VAD_DATA *vad_data) {
  * using a Finite State Automata
  */
 
-VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1) {
+VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1, float alfa2, float delta) {
 
   /* 
    * TODO: You can change this, using your own features,
@@ -90,33 +88,64 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1) {
   vad_data->last_feature = f.p; /* save feature, in case you want to show */
 
   switch (vad_data->state) {
-  case ST_INIT:
-    vad_data->state = ST_SILENCE;
-    vad_data->p1 = f.p + alfa1;
-    break;
-
-  case ST_SILENCE:
-    if (f.p > vad_data->p1){
-      vad_data->state = ST_VOICE;
-    }  
-    break;
-
-  case ST_VOICE:
-    if (f.p < vad_data->p1){  /*se puede poner un valor de histeresis*/
+    case ST_INIT:
       vad_data->state = ST_SILENCE;
-    }
+      vad_data->p1 = f.p;
+      vad_data->last_state_known = ST_SILENCE;
     break;
 
-  case ST_UNDEF:
-    break;
+    case ST_SILENCE:
+      if (f.p > vad_data->p1 +alfa1) {
+        vad_data->state = ST_UNDEF;
+        vad_data->undef_count = 0; 
+        vad_data->last_state_known = ST_SILENCE;
+      }
+      break;
+
+    case ST_VOICE:
+      if (f.p < vad_data->p1 + alfa2) {
+        vad_data->state = ST_UNDEF;  // Transició a l'estat undef
+        vad_data->undef_count = 0;
+        vad_data->last_state_known = ST_VOICE;
+      }
+      break;
+
+    case ST_UNDEF:
+    
+    //Comprovar si es SILENCI ---> VEU
+      if (f.p > vad_data->p0 + alpha1) { 
+        // Si supera el llindar de silenci 
+            
+        if (vad_data->undef_count < delta +1){
+          vad_data->undef_count = vad_data->undef_count +1;
+          vad_data->state = ST_UNDEF;
+        }  
+        else
+          vad_data->state = ST_VOICE;
+      } 
+      else {
+           vad_data->state = ST_SILENCE;
+          
+        } 
+    //Comprovar si es  VEU ---> SILENCI
+      if (f.p < vad_data->p0 + alpha2) {
+        // Si no supera el llindar de veu
+        if (vad_data->undef_count < delta+1){
+          vad_data->undef_count++;
+          vad_data->state = ST_UNDEF;
+        }  
+        else
+          vad_data->state = ST_SILENCE;
+      } 
+      else {
+           vad_data->state = ST_VOICE;
+      } 
+      break;
   }
 
-  if (vad_data->state == ST_SILENCE ||
-      vad_data->state == ST_VOICE)
-    return vad_data->state;
-  else
-    return ST_UNDEF;
+  return vad_data->state;  //Unicament retorna ST_UNDEF si ha expirat el temporitzador
 }
+
 
 void vad_show_state(const VAD_DATA *vad_data, FILE *out) {
   fprintf(out, "%d\t%f\n", vad_data->state, vad_data->last_feature);
