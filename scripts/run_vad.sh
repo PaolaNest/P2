@@ -9,11 +9,13 @@ set -o pipefail
 
 # asignar un valor de 5.1 por defecto a la variable de entorno alfa1 (el - es por sintaxis)
 alfa1=${1:-5.1}
+alfa1=${2:-5.1}
 
 # Write here the name and path of your program and database
 DIR_P2=$HOME/PAV/P2
 DB=$DIR_P2/db.v4
-CMD="$DIR_P2/bin/vad -1 $alfa1"
+CMD="$DIR_P2/bin/vad -1 $alfa1 -2 $alfa2"
+
 
 for filewav in $DB/*/*wav; do
 #    echo
