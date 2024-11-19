@@ -10,6 +10,7 @@ Options:
    -o FILE, --output-vad=FILE  Label file with the result of VAD
    -w FILE, --output-wav=FILE  WAVE file with silences cleared
    -1 FLOAT, --alfa1=FLOAT     Llindar de detecció 1 [default: -42]
+   -2 FLOAT, --alfa2=FLOAT     Llindar de detecció 2 [default: -42]
    -v, --verbose  Show debug information
    -h, --help     Show this screen
    --version      Show the version of the project
