@@ -32,9 +32,9 @@ int main(int argc, char *argv[]) {
   input_wav  = args.input_wav;
   output_vad = args.output_vad;
   output_wav = args.output_wav;
-  float alfa1 = atof(args.alfa1);
-  float alfa2 = atof(args.alfa2);   //2n llindar
-  float delta = 5;     //marca quantes trames UNDEF han de pasar per canviar d'estat
+  float alfa1 = atof(args.alfa1);      // 1r llindar
+  float alfa2 = atof(args.alfa2);      // 2n llindar
+  const float MAX_num_trames = 15;     // MAX nº de trames UNDEF han de pasar per canviar d'estat
   unsigned int undef_count=0;
 
   if (input_wav == 0 || output_vad == 0) {
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
       /* TODO: copy all the samples into sndfile_out */
     }
 
-    state = vad(vad_data, buffer, alfa1, alfa2, delta);
+    state = vad(vad_data, buffer, alfa1, alfa2, MAX_num_trames);
     if (verbose & DEBUG_VAD) vad_show_state(vad_data, stdout);
 
     /* TODO: print only SILENCE and VOICE labels */
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
     if (state != last_state) {
 
       if(last_state==ST_UNDEF){
-        if(undef_count>= delta){
+        if(undef_count>= MAX_num_trames){
           
           undef_count = 0;
           if(state==ST_SILENCE) last_state=ST_VOICE;

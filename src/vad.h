@@ -13,7 +13,6 @@ const char *state2str(VAD_STATE st);
 
 typedef struct {
   VAD_STATE state;
-  VAD_STATE last_state_known;
   float sampling_rate;
   unsigned int frame_length;
   unsigned int undef_count;
