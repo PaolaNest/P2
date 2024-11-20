@@ -165,19 +165,26 @@ Ejercicios
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
- 
+
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto.
 
-  
+- ![image](https://github.com/user-attachments/assets/8d7eea16-428f-432d-9711-191fba2b447b)
+
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
+
+  - 
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
 
+- ![image](https://github.com/user-attachments/assets/6f0fb58a-c2dc-4054-ad63-db58f3c31fa2)
+
+ - ![image](https://github.com/user-attachments/assets/9b2540e0-7f33-444d-b3c8-0d65006262b3)
+Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F-Total de: 94.397
 
 ### Trabajos de ampliación
 
