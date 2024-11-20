@@ -205,9 +205,6 @@ Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
   
--Hemos analizado como afecta incluir en el codigo un threshold de zcr para silencio y para voz. La intención era mejorara el porcentaje total, ya que la taza de cruces por 0 esta muy relacionada con la deteccion de voz y silencio. Los resultados han sido peores de lo que esperabamos y el porcentaje TOTAL he empeorado respecto a la implementacion que previamente hemos mencionado. Puede ser debido a los thresholds que hemos puesto o a nuestro analisis al implementar el codigo.
-
-
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.
 
