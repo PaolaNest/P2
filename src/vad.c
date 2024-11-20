@@ -65,14 +65,10 @@ VAD_DATA * vad_open(float rate) {
 }
 
 VAD_STATE vad_close(VAD_DATA *vad_data) {
-  /* 
-   * TODO: decide what to do with the last undecided frames
-   */
   VAD_STATE state = vad_data->state;
-  if (state == ST_UNDEF) {
-    state = ST_SILENCE; //Declarem com a silenci
+   if (state == ST_UNDEF) {
+    state = ST_SILENCE; //Els declarem com silenci
   }
-
   free(vad_data);
   return state;
 }
@@ -101,6 +97,18 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1, float alfa2, float MAX_
     case ST_INIT:
       vad_data->state = ST_SILENCE;
       vad_data->p1 = f.p;
+<<<<<<< HEAD
+=======
+      vad_data->last_state_known = ST_SILENCE;
+<<<<<<< HEAD
+    break;
+
+    case ST_SILENCE:
+      if (f.p > vad_data->p1 +alfa1) {
+        vad_data->state = ST_UNDEF;
+        vad_data->undef_count = 0; 
+=======
+>>>>>>> 53490523c80692c137dbadf19bdafc7a819ca7f4
       break;
 
     case ST_SILENCE:
@@ -108,24 +116,47 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1, float alfa2, float MAX_
       if (f.p > vad_data->p1 + alfa1) {
         vad_data->state = ST_UNDEF;
         vad_data->undef_count = 0;
+<<<<<<< HEAD
+=======
+>>>>>>> 0024cb8eee284967a209509eb86acb00a1c4b250
+        vad_data->last_state_known = ST_SILENCE;
+>>>>>>> 53490523c80692c137dbadf19bdafc7a819ca7f4
       }
       break;
 
     case ST_VOICE:
       //Comprovació: si no supera el llindar del silenci (alfa2)
       if (f.p < vad_data->p1 + alfa2) {
+<<<<<<< HEAD
+        vad_data->state = ST_UNDEF;  // Transició a l'estat undef
+=======
         vad_data->state = ST_SILENCE; 
         vad_data->state = ST_UNDEF;
+>>>>>>> 0024cb8eee284967a209509eb86acb00a1c4b250
         vad_data->undef_count = 0;
       }
       break;
 
     case ST_UNDEF:
+<<<<<<< HEAD
     //Comprovar si és SILENCI a VEU
       // Si supera el llindar de silenci
       if (f.p > vad_data->p1 + alfa1) { 
                     
         if (vad_data->undef_count <= MAX_num_trames){
+=======
+<<<<<<< HEAD
+    
+    //Comprovar si es SILENCI ---> VEU
+      if (f.p > vad_data->p0 + alpha1) { 
+=======
+    //Comprovar si es SILENCI ---> VEU
+      if (f.p > vad_data->p1 + alfa1) { 
+>>>>>>> 0024cb8eee284967a209509eb86acb00a1c4b250
+        // Si supera el llindar de silenci 
+            
+        if (vad_data->undef_count < delta +1){
+>>>>>>> 53490523c80692c137dbadf19bdafc7a819ca7f4
           vad_data->undef_count = vad_data->undef_count +1;
           vad_data->state = ST_UNDEF;
         }  
@@ -133,14 +164,27 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1, float alfa2, float MAX_
           vad_data->state = ST_VOICE;
       } 
       else {
+<<<<<<< HEAD
+           vad_data->state = ST_SILENCE;
+          
+        } 
+    //Comprovar si es  VEU ---> SILENCI
+      if (f.p < vad_data->p0 + alpha2) {
+=======
           vad_data->state = ST_SILENCE;         
       } 
 
     //Comprovar si és VEU a SILENCI
       // Si no supera el llindar de veu
       if (f.p < vad_data->p1 + alfa2) {
+<<<<<<< HEAD
         
         if (vad_data->undef_count <= MAX_num_trames){
+=======
+>>>>>>> 0024cb8eee284967a209509eb86acb00a1c4b250
+        // Si no supera el llindar de veu
+        if (vad_data->undef_count < delta+1){
+>>>>>>> 53490523c80692c137dbadf19bdafc7a819ca7f4
           vad_data->undef_count++;
           vad_data->state = ST_UNDEF;
         }  
@@ -150,11 +194,23 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1, float alfa2, float MAX_
       else {
            vad_data->state = ST_VOICE;
       } 
+<<<<<<< HEAD
+      break;
+  }
+
+  return vad_data->state;  //Unicament retorna ST_UNDEF si ha expirat el temporitzador
+=======
 
       break;
   }
     return vad_data->state;
+<<<<<<< HEAD
+=======
+  //else return ST_UNDEF;
+>>>>>>> 0024cb8eee284967a209509eb86acb00a1c4b250
+>>>>>>> 53490523c80692c137dbadf19bdafc7a819ca7f4
 }
+
 
 void vad_show_state(const VAD_DATA *vad_data, FILE *out) {
   fprintf(out, "%d\t%f\n", vad_data->state, vad_data->last_feature);

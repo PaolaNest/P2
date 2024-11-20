@@ -37,6 +37,7 @@ int main(int argc, char *argv[]) {
   const float MAX_num_trames = 15;     // MAX nº de trames UNDEF han de pasar per canviar d'estat
   unsigned int undef_count=0;
 
+
   if (input_wav == 0 || output_vad == 0) {
     fprintf(stderr, "%s\n", args.usage_pattern);
     return -1;
