@@ -18,6 +18,7 @@ typedef struct {
   unsigned int frame_length;
   unsigned int undef_count;
   float last_feature; /* for debuggin purposes */
+  float last_feature_zcr;
   float p1;
 } VAD_DATA;
 
