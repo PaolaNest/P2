@@ -147,42 +147,50 @@ Ejercicios
 ![image](https://github.com/user-attachments/assets/c40e69b2-30bf-4f7a-9ade-d2d40eb75a6d)
 
 
-   - &#x2206; Pot [db] = 63-24 = 39 dB
-   - Silencio -> alrededor de los 20dB
-   - Voz -> entre 22dB y 63dB
+   -> &#x2206; Pot [db] = 63-24 = 39 dB
+   
+   -> Silencio: alrededor de los 20dB
+   
+   -> Voz: entre 22dB y 63dB
 
 	* Duración mínima razonable de los segmentos de voz y silencio.
- -
-    ![image](https://github.com/user-attachments/assets/990a0abe-246c-49e4-b7e1-f6150a2d34b9)
+ 
+![image](https://github.com/user-attachments/assets/990a0abe-246c-49e4-b7e1-f6150a2d34b9)
 
 
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
-Analizando la gráfica de la tasa de cruces por cero, en los segmentos de silencio vemos que tiene una forma mucho más caótica e irregular, con muchos más cambios (subidas y bajadas) que en el caso de los segmentos de voz, esto es debido a que la señal no es sonora (unvoiced) y carece de periodicidad. Además durante los silencios, la señal no está del todo inactiva, no hay un completo silencio, se capta también ruido de fondo y el sistema de grabación del ordenador también influye (ruido térmico, electrónico, etc.).
+
+-> Analizando la gráfica de la tasa de cruces por cero, en los segmentos de silencio vemos que tiene una forma mucho más caótica e irregular, con muchos más cambios (subidas y bajadas) que en el caso de los segmentos de voz, esto es debido a que la señal no es sonora (unvoiced) y carece de periodicidad. Además durante los silencios, la señal no está del todo inactiva, no hay un completo silencio, se capta también ruido de fondo y el sistema de grabación del ordenador también influye (ruido térmico, electrónico, etc.).
 
 ### Desarrollo del detector de actividad vocal
 
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
-- Nuestro algoritmo funciona comparando la potencia de cada muestra de señal con dos umbrales alfa1 y alfa2. Además también hemos incorporado un parámetro "MAX_num_tramas" que indica el nº de tramas undef (sin definir) que han de pasar para pasar de un estado a otro.
-- A continuación podemos ver el resultado con nuestro ejemplo de fichero de audio usado:
+
+-> Nuestro algoritmo funciona comparando la potencia de cada muestra de señal con dos umbrales alfa1 y alfa2. Además también hemos incorporado un parámetro "MAX_num_tramas" que indica el nº de tramas undef (sin definir) que han de pasar para pasar de un estado a otro.
+
+
+-> A continuación podemos ver el resultado con nuestro ejemplo de fichero de audio usado:
 - ![image](https://github.com/user-attachments/assets/3a7a1fa9-1510-4197-9e95-455568500bfb)
  
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto.
 
-- ![vad y lab en wavesurfer](https://github.com/user-attachments/assets/c475f1cd-0241-43d7-8e7f-8465ee0671f3)
+![vad y lab en wavesurfer](https://github.com/user-attachments/assets/c475f1cd-0241-43d7-8e7f-8465ee0671f3)
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
 
-  - La principal diferencia 👀 es que con VAD se han generado muchas más "labels" respecto a nuestro etiquetado manual. También vemos algunas erróneamente etiquetadas como voz ( están marcadas con color rosa en la gráfica anterior), pero realmente corresponden a silencio. 
+-> La principal diferencia 👀 es que con VAD se han generado muchas más "labels" respecto a nuestro etiquetado manual. También vemos algunas erróneamente etiquetadas como voz ( están marcadas con color rosa en la gráfica anterior), pero realmente corresponden a silencio. 
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
-Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F-Total de: 94.397
+
+  
+-> Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F-Total de: 94.397
 - ![image](https://github.com/user-attachments/assets/6f0fb58a-c2dc-4054-ad63-db58f3c31fa2)
 
  - ![image](https://github.com/user-attachments/assets/9b2540e0-7f33-444d-b3c8-0d65006262b3)
@@ -202,12 +210,15 @@ Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F
   una captura de pantalla en la que se vea el mensaje de ayuda del programa.
 
 
+![image](https://github.com/user-attachments/assets/6190c20e-aa8d-483b-8fc2-7068cb354385)
+
 ### Contribuciones adicionales y/o comentarios acerca de la práctica
 
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
 
- -Hemos analizado como afecta incluir en el codigo un threshold de zcr para silencio y para voz. La intención era mejorara el porcentaje total, ya que la taza de cruces por 0 esta muy relacionada con la deteccion de voz y silencio. Los resultados han sido peores de lo que esperabamos y el porcentaje TOTAL he empeorado respecto a la implementacion que previamente hemos mencionado. Puede ser debido a los thresholds que hemos puesto o a nuestro analisis al implementar el codigo.
+ 
+-> Hemos analizado como afecta el hecho de incluir en nuestro código unos umbrales para la tasa de cruces por cero: "threshold_zcr_silence" para silencio y "threshold_zcr_voice" para voz. La intención era mejorar el porcentaje F-Total, ya que este feature está muy relacionado con la detección de voz y de silencio. Lamentablemente, los resultados han sido peores de lo que esperábamos y el porcentaje F-TOTAL he empeorado respecto a la implementación que previamente hemos mencionado. Por un lado, puede ser que hayámos escogido unos thresholds inadecuados o puede ser que nuestra planteación algorítmica sea incorrecta como tal.
   
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.
