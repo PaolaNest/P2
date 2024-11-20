@@ -158,33 +158,35 @@ Ejercicios
 
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
-- Analizando la gráfica de la tasa de cruces por cero, en los segmentos de silencio vemos que tiene una forma mucho más caótica e irregular, con muchos más cambios (subidas y bajadas) que en el caso de los segmentos de voz, esto es debido a que la señal no es sonora (unvoiced) y carece de periodicidad. Además durante los silencios, la señal no está del todo inactiva, no hay un completo silencio, se capta también ruido de fondo y el sistema de grabación del ordenador también influye (ruido térmico, electrónico, etc.).
+Analizando la gráfica de la tasa de cruces por cero, en los segmentos de silencio vemos que tiene una forma mucho más caótica e irregular, con muchos más cambios (subidas y bajadas) que en el caso de los segmentos de voz, esto es debido a que la señal no es sonora (unvoiced) y carece de periodicidad. Además durante los silencios, la señal no está del todo inactiva, no hay un completo silencio, se capta también ruido de fondo y el sistema de grabación del ordenador también influye (ruido térmico, electrónico, etc.).
 
 ### Desarrollo del detector de actividad vocal
 
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
-- dddd
+- Nuestro algoritmo funciona comparando la potencia de cada muestra de señal con dos umbrales alfa1 y alfa2. Además también hemos incorporado un parámetro "MAX_num_tramas" que indica el nº de tramas undef (sin definir) que han de pasar para pasar de un estado a otro.
+- A continuación podemos ver el resultado con nuestro ejemplo de fichero de audio usado:
+- ![image](https://github.com/user-attachments/assets/3a7a1fa9-1510-4197-9e95-455568500bfb)
+ 
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto.
 
-- ![image](https://github.com/user-attachments/assets/8d7eea16-428f-432d-9711-191fba2b447b)
-
+- ![vad y lab en wavesurfer](https://github.com/user-attachments/assets/c475f1cd-0241-43d7-8e7f-8465ee0671f3)
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
 
-  - 
+  - La principal diferencia 👀 es que con VAD se han generado muchas más "labels" respecto a nuestro etiquetado manual. También vemos algunas erróneamente etiquetadas como voz ( están marcadas con color rosa en la gráfica anterior), pero realmente corresponden a silencio. 
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
-
+Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F-Total de: 94.397
 - ![image](https://github.com/user-attachments/assets/6f0fb58a-c2dc-4054-ad63-db58f3c31fa2)
 
  - ![image](https://github.com/user-attachments/assets/9b2540e0-7f33-444d-b3c8-0d65006262b3)
-Usando los valores de alfa1 = 11 y alfa2 = 7, MAX_num_tramas = 15 obtenemos un F-Total de: 94.397
+
 
 ### Trabajos de ampliación
 
